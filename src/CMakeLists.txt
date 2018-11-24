@@ -113,7 +113,7 @@ add_dependencies(P2P version)
 # Finally build the binaries
 set_property(TARGET BLOCd PROPERTY OUTPUT_NAME "BLOCd")
 set_property(TARGET zedwallet PROPERTY OUTPUT_NAME "BLOCWallet")
-set_property(TARGET service PROPERTY OUTPUT_NAME "bloc-service")
+set_property(TARGET service PROPERTY OUTPUT_NAME "BLOC-service")
 set_property(TARGET miner PROPERTY OUTPUT_NAME "miner")
 
 # Additional make targets

@@ -1,4 +1,5 @@
 // Copyright (c) 2018, The TurtleCoin Developers
+// Copyright (c) 2018, The BLOC Developers
 // 
 // Please see the included LICENSE file for more information.
 
@@ -311,7 +312,7 @@ bool shutdown(std::shared_ptr<WalletInfo> walletInfo, CryptoNote::INode &node,
 {
     if (alreadyShuttingDown)
     {
-        std::cout << "Patience little turtle, we're already shutting down!" 
+        std::cout << "Patience, we're already shutting down!" 
                   << std::endl;
 
         return false;

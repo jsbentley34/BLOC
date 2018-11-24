@@ -3,13 +3,9 @@ import ujson as json
 import sys
 import binascii
 
-to_address = "TRTLv3xYqUdAy4K8viYjNnMj21NLohHbf9ut2Cczxyh96d74TzxNgdB3aZbb9U2ZJ1DVmVpbDwzH77821o9ciNYQVaSt3V6bu7R"
+to_address = "abLocA4HEsaDXSJHLFMZW4LjQ1c2PExVbLHwq4GW6nZN3njc6LbgRZSKTzV9Jr8zDsC4q3FPg3emoCbsGxYz2i3XJzWzqkkKjrm"
 content = """
-  _____     ____
- /      \  |  o |
-|        |/ ___\|
-|_________/
-|_|_| |_|_|
+IN BLOC WE TRUST
 """
 
 def rpc(method, params={}):
@@ -25,7 +21,7 @@ def rpc(method, params={}):
     try:
         response = requests.post(base_url, data=json.dumps(payload)).json()
     except Exception as e:
-        print("Doesn't seem like turtle-service is running. {}".format(response))
+        print("Doesn't seem like BLOC-service is running. {}".format(response))
         sys.exit(1)
 
     if 'error' in response:
@@ -35,11 +31,11 @@ def rpc(method, params={}):
 
 r = rpc("sendTransaction", {
     "transfers": [{
-        "amount": 1,
+        "amount": 10,
         "address": to_address,
     }],
-    "fee": 10,
-    "anonymity": 3,
+    "fee": 1,
+    "anonymity": 0,
     "extra": binascii.hexlify(content.encode()).decode()
 })
 print(r)

@@ -8,30 +8,30 @@ build_script:
   - md build
   - cd build
   - cmake -G "Visual Studio 15 2017 Win64" ..
-  - MSBuild TurtleCoin.sln /p:Configuration=Release /m
+  - MSBuild BLOC.sln /p:Configuration=Release /m
 
 after_build:
   - if not defined APPVEYOR_REPO_TAG_NAME (set APPVEYOR_REPO_TAG_NAME=%APPVEYOR_REPO_COMMIT%)
   - cd src\Release
-  - mkdir turtlecoin-%APPVEYOR_REPO_TAG_NAME%
-  - copy *.exe turtlecoin-%APPVEYOR_REPO_TAG_NAME%
-  - copy ..\..\..\LICENSE turtlecoin-%APPVEYOR_REPO_TAG_NAME%
-  - 7z a turtlecoin-%APPVEYOR_REPO_TAG_NAME%-windows.zip turtlecoin-%APPVEYOR_REPO_TAG_NAME%
-  - copy turtlecoin-%APPVEYOR_REPO_TAG_NAME%-windows.zip ..\..\..\
+  - mkdir bloc-%APPVEYOR_REPO_TAG_NAME%
+  - copy *.exe bloc-%APPVEYOR_REPO_TAG_NAME%
+  - copy ..\..\..\LICENSE bloc-%APPVEYOR_REPO_TAG_NAME%
+  - 7z a bloc-%APPVEYOR_REPO_TAG_NAME%-windows.zip bloc-%APPVEYOR_REPO_TAG_NAME%
+  - copy bloc-%APPVEYOR_REPO_TAG_NAME%-windows.zip ..\..\..\
 
 artifacts:
-  - path: turtlecoin-$(APPVEYOR_REPO_TAG_NAME)-windows.zip
-    name: TurtleCoinRelease
+  - path: bloc-$(APPVEYOR_REPO_TAG_NAME)-windows.zip
+    name: BLOCRelease
 
 deploy:
   - provider: GitHub
     auth_token:
       secure: KFrN1rc9FJN3BEoX99whHEuK5iPHHLmDcZ1Ac7tgT9oR6AxyjL0B+XMQu4wqo+fK
-    artifact: TurtleCoinRelease
+    artifact: BLOCRelease
     draft: false
     prerelease: false
     on:
-      appveyor_repo_name: turtlecoin/turtlecoin
+      appveyor_repo_name: bloc/bloc
       appveyor_repo_tag: true
 
   - provider: S3
@@ -39,10 +39,10 @@ deploy:
       secure: nVmSNpabdw1WcGdTTzxAEjza8j9icu89oyXbC8fZVuM=
     secret_access_key:
       secure: TpCxPp5npMRclcwHB3dhkd9ZsEgKstS6HOnQ1VR6YObEsaPyl5dr16ZdbsOgjykj
-    bucket: turtlecoin
+    bucket: bloc
     region: us-east-2
     set_public: true
-    folder: turtlecoin
-    artifact: TurtleCoinRelease
+    folder: bloc
+    artifact: BLOCRelease
     on:
-      appveyor_repo_name: turtlecoin/turtlecoin
+      appveyor_repo_name: bloc/bloc
