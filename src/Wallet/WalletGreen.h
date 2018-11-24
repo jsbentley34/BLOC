@@ -74,6 +74,8 @@ public:
 
   virtual void deleteAddress(const std::string& address) override;
 
+  virtual void resetPendingTransactions();
+
   virtual uint64_t getActualBalance() const override;
   virtual uint64_t getActualBalance(const std::string& address) const override;
   virtual uint64_t getPendingBalance() const override;
