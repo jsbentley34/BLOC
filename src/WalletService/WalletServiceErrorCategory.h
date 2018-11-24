@@ -30,6 +30,8 @@ enum class WalletServiceErrorCode {
   OBJECT_NOT_FOUND,
   DUPLICATE_KEY,
   KEYS_NOT_DETERMINISTIC,
+  FUSION_IN_PROGRESS,
+  ALREADY_OPTIMIZED
 };
 
 // custom category:
@@ -55,6 +57,8 @@ public:
       case WalletServiceErrorCode::OBJECT_NOT_FOUND: return "Requested object not found";
       case WalletServiceErrorCode::DUPLICATE_KEY: return "Duplicate key";
       case WalletServiceErrorCode::KEYS_NOT_DETERMINISTIC: return "Keys not deterministic";
+      case WalletServiceErrorCode::FUSION_IN_PROGRESS: return "Fusion transaction is already in progress";
+      case WalletServiceErrorCode::ALREADY_OPTIMIZED: return "Wallet is already optimized";
       default: return "Unknown error";
     }
   }

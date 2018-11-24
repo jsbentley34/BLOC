@@ -108,6 +108,8 @@ private:
   std::error_code handleEstimateFusion(const EstimateFusion::Request& request, EstimateFusion::Response& response);
   std::error_code handleCreateIntegratedAddress(const CreateIntegratedAddress::Request& request, CreateIntegratedAddress::Response& response);
   std::error_code handleNodeFeeInfo(const NodeFeeInfo::Request& request, NodeFeeInfo::Response& response);
+  std::error_code handleOptimize(const Optimize::Request& request, Optimize::Response& response);
+  std::error_code handleAutoOptimize(const AutoOptimize::Request& request, AutoOptimize::Response& response); 
 
 };
 

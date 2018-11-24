@@ -52,6 +52,9 @@ PaymentServiceJsonRpcServer::PaymentServiceJsonRpcServer(System::Dispatcher& sys
   handlers.emplace("createIntegratedAddress", jsonHandler<CreateIntegratedAddress::Request, CreateIntegratedAddress::Response>(std::bind(&PaymentServiceJsonRpcServer::handleCreateIntegratedAddress, this, std::placeholders::_1, std::placeholders::_2)));
   handlers.emplace("getFeeInfo", jsonHandler<NodeFeeInfo::Request, NodeFeeInfo::Response>(std::bind(&PaymentServiceJsonRpcServer::handleNodeFeeInfo, this, std::placeholders::_1, std::placeholders::_2)));
   handlers.emplace("getNodeFeeInfo", jsonHandler<NodeFeeInfo::Request, NodeFeeInfo::Response>(std::bind(&PaymentServiceJsonRpcServer::handleNodeFeeInfo, this, std::placeholders::_1, std::placeholders::_2)));
+  handlers.emplace("optimize", jsonHandler<Optimize::Request, Optimize::Response>(std::bind(&PaymentServiceJsonRpcServer::handleOptimize, this, std::placeholders::_1, std::placeholders::_2)));
+  handlers.emplace("autoOptimize", jsonHandler<AutoOptimize::Request, AutoOptimize::Response>(std::bind(&PaymentServiceJsonRpcServer::handleAutoOptimize, this, std::placeholders::_1, std::placeholders::_2)));
+
 }
 
 void PaymentServiceJsonRpcServer::processJsonRpcRequest(const Common::JsonValue& req, Common::JsonValue& resp) {
@@ -234,6 +237,14 @@ std::error_code PaymentServiceJsonRpcServer::handleCreateIntegratedAddress(const
 
 std::error_code PaymentServiceJsonRpcServer::handleNodeFeeInfo(const NodeFeeInfo::Request& request, NodeFeeInfo::Response& response) {
   return service.getFeeInfo(response.address, response.amount);
+}
+
+std::error_code PaymentServiceJsonRpcServer::handleOptimize(const Optimize::Request& request, Optimize::Response& response) {
+    return service.optimize(request.address, response.transactionHash);
+}
+    
+std::error_code PaymentServiceJsonRpcServer::handleAutoOptimize(const AutoOptimize::Request& request, AutoOptimize::Response& response) {
+    return service.autoOptimize(response.transactionHash);
 }
 
 }

@@ -331,6 +331,21 @@ void SendDelayedTransaction::Request::serialize(CryptoNote::ISerializer& seriali
 
 void SendDelayedTransaction::Response::serialize(CryptoNote::ISerializer& serializer) {
 }
+    
+void Optimize::Request::serialize(CryptoNote::ISerializer& serializer) {
+    serializer(address, "address");
+}
+
+void Optimize::Response::serialize(CryptoNote::ISerializer& serializer) {
+    serializer(transactionHash, "transactionHash");
+}
+    
+void AutoOptimize::Request::serialize(CryptoNote::ISerializer& serializer) {
+}
+
+void AutoOptimize::Response::serialize(CryptoNote::ISerializer& serializer) {
+    serializer(transactionHash, "transactionHash");
+}
 
 void SendFusionTransaction::Request::serialize(CryptoNote::ISerializer& serializer, const WalletService &service) {
   if (!serializer(threshold, "threshold")) {

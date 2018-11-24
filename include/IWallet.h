@@ -180,6 +180,7 @@ public:
   virtual size_t makeTransaction(const TransactionParameters& sendingTransaction) = 0;
   virtual void commitTransaction(size_t transactionId) = 0;
   virtual void rollbackUncommitedTransaction(size_t transactionId) = 0;
+  virtual bool isFusionTransaction(const WalletTransaction& walletTx) const = 0;
 
   virtual void start() = 0;
   virtual void stop() = 0;
