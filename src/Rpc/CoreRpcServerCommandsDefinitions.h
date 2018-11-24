@@ -309,6 +309,20 @@ struct COMMAND_RPC_GET_INFO {
 };
 
 //-----------------------------------------------
+struct COMMAND_RPC_GET_TOTAL_COINS {
+	typedef EMPTY_STRUCT request;
+
+	struct response {
+		std::string status;
+		std::string alreadyGeneratedCoins;
+
+		void serialize(ISerializer &s) {
+			KV_MEMBER(status)
+			KV_MEMBER(alreadyGeneratedCoins)
+		}
+	};
+};
+//-----------------------------------------------
 struct COMMAND_RPC_STOP_MINING {
   typedef EMPTY_STRUCT request;
   typedef STATUS_STRUCT response;
