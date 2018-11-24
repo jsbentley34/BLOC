@@ -16,9 +16,9 @@
    it will actually convert these codes for us to the windows equivalent. <3 */
 std::string yellowANSIMsg(std::string msg)
 {
-    const std::string CYELLOW = "\033[1;33m";
+    const std::string BrightCyan = "\033[0;96m";
     const std::string RESET = "\033[0m";
-    return CYELLOW + msg + RESET;
+    return BrightCyan + msg + RESET;
 }
 
 std::string getPrompt(std::shared_ptr<WalletInfo> walletInfo)

@@ -63,32 +63,32 @@ class SuccessMsg : public ColouredMsg
 {
     public:
         explicit SuccessMsg(std::string msg) 
-               : ColouredMsg(msg, Common::Console::Color::Green) {}
+               : ColouredMsg(msg, Common::Console::Color::BrightGreen) {}
 
         explicit SuccessMsg(std::string msg, int padding)
-               : ColouredMsg(msg, padding, Common::Console::Color::Green) {}
+               : ColouredMsg(msg, padding, Common::Console::Color::BrightGreen) {}
 };
 
 class InformationMsg : public ColouredMsg
 {
     public:
         explicit InformationMsg(std::string msg) 
-               : ColouredMsg(msg, Common::Console::Color::BrightYellow) {}
+               : ColouredMsg(msg, Common::Console::Color::BrightBlue) {}
 
         explicit InformationMsg(std::string msg, int padding)
                : ColouredMsg(msg, padding, 
-                             Common::Console::Color::BrightYellow) {}
+                             Common::Console::Color::BrightGreen) {}
 };
 
 class SuggestionMsg : public ColouredMsg
 {
     public:
         explicit SuggestionMsg(std::string msg) 
-               : ColouredMsg(msg, Common::Console::Color::BrightYellow) {}
+               : ColouredMsg(msg, Common::Console::Color::BrightCyan) {}
 
         explicit SuggestionMsg(std::string msg, int padding)
                : ColouredMsg(msg, padding, 
-                             Common::Console::Color::BrightYellow) {}
+                             Common::Console::Color::BrightCyan) {}
 };
 
 class WarningMsg : public ColouredMsg

@@ -113,7 +113,7 @@ void MinerManager::printHashRate() {
     uint64_t current_hash_count = m_miner.getHashCount();
     double hashes = static_cast<double>((current_hash_count - last_hash_count) / 60);
     last_hash_count = current_hash_count;
-    m_logger(Logging::INFO, BRIGHT_GREEN) << "Mining at " << hashes << " H/s";
+    m_logger(Logging::INFO, BRIGHT_CYAN) << "Mining at " << hashes << " H/s";
   }
 }
 

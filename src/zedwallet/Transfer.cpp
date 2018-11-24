@@ -1077,7 +1077,7 @@ bool parseStandardAddress(std::string address, bool printErrors)
     }
     /* We can't get the actual prefix if the address is invalid for other
        reasons. To work around this, we can just check that the address starts
-       with TRTL, as long as the prefix is the TRTL prefix. This keeps it
+       with TbLoc, as long as the prefix is the TbLoc prefix. This keeps it
        working on testnets with different prefixes. */
     else if (address.substr(0, WalletConfig::addressPrefix.length()) 
           != WalletConfig::addressPrefix)
