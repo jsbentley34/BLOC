@@ -150,7 +150,7 @@ bool ConfigurationManager::init(int argc, char** argv)
   if (!serviceConfig.rpcPassword.empty())
   {
     std::vector<uint8_t> rawData(serviceConfig.rpcPassword.begin(), serviceConfig.rpcPassword.end());
-    Crypto::cn_slow_hash_v0(rawData.data(), rawData.size(), rpcSecret);
+    Crypto::cn_fast_hash(rawData.data(), rawData.size(), rpcSecret);
     serviceConfig.rpcPassword = "";
   }
 

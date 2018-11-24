@@ -93,10 +93,11 @@ void Miner::runWorkers(BlockMiningParameters blockMiningParameters, size_t threa
 void Miner::workerFunc(const BlockTemplate& blockTemplate, uint64_t difficulty, uint32_t nonceStep) {
   try {
     BlockTemplate block = blockTemplate;
+    Crypto::cn_pow_hash cryptoContext;
 
     while (m_state == MiningState::MINING_IN_PROGRESS) {
       CachedBlock cachedBlock(block);
-      Crypto::Hash hash = cachedBlock.getBlockLongHash();
+      Crypto::Hash hash = cachedBlock.getBlockLongHash(cryptoContext);
       if (check_hash(hash, difficulty)) {
         m_logger(Logging::INFO) << "Found block for difficulty " << difficulty;
 

@@ -46,20 +46,21 @@ const Crypto::Hash& CachedBlock::getBlockHash() const {
   return blockHash.get();
 }
 
-const Crypto::Hash& CachedBlock::getBlockLongHash() const {
+const Crypto::Hash& CachedBlock::getBlockLongHash(cn_pow_hash& cryptoContext) const {
   if (!blockLongHash.is_initialized()) {
     if (block.majorVersion == BLOCK_MAJOR_VERSION_1) {
       const auto& rawHashingBlock = getBlockHashingBinaryArray();
       blockLongHash = Hash();
-      cn_slow_hash_v0(rawHashingBlock.data(), rawHashingBlock.size(), blockLongHash.get());
+      cryptoContext.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));
     } else if ((block.majorVersion == BLOCK_MAJOR_VERSION_2) || (block.majorVersion == BLOCK_MAJOR_VERSION_3)) {
       const auto& rawHashingBlock = getParentBlockHashingBinaryArray(true);
       blockLongHash = Hash();
-      cn_slow_hash_v0(rawHashingBlock.data(), rawHashingBlock.size(), blockLongHash.get());
+      cryptoContext.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));
     } else if (block.majorVersion >= BLOCK_MAJOR_VERSION_4) {
       const auto& rawHashingBlock = getParentBlockHashingBinaryArray(true);
       blockLongHash = Hash();
-      cn_lite_slow_hash_v1(rawHashingBlock.data(), rawHashingBlock.size(), blockLongHash.get());
+      cn_pow_hash_v2 cryptoContextV2 = cn_pow_hash_v2::make_borrowed(cryptoContext);
+      cryptoContextV2.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));
     } else {
       throw std::runtime_error("Unknown block major version.");
     }

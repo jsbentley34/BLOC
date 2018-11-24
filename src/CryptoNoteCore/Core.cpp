@@ -29,6 +29,7 @@
 #include "CryptoNoteProtocol/CryptoNoteProtocolHandlerCommon.h"
 
 #include <System/Timer.h>
+#include <boost/range/adaptor/reversed.hpp>
 
 #include "TransactionApi.h"
 
@@ -530,6 +531,24 @@ std::vector<Crypto::Hash> Core::findBlockchainSupplement(const std::vector<Crypt
   return getBlockHashes(startBlockIndex, static_cast<uint32_t>(maxCount));
 }
 
+// Calculate ln(p) of Poisson distribution
+// Original idea : https://stackoverflow.com/questions/30156803/implementing-poisson-distribution-in-c
+// Using logarithms avoids dealing with very large (k!) and very small (p < 10^-44) numbers
+// lam     - lambda parameter - in our case, how many blocks, on average, you would expect to see in the interval
+// k       - k parameter - in our case, how many blocks we have actually seen
+//           !!! k must not be zero
+// return  - ln(p)
+
+double calc_poisson_ln(double lam, uint64_t k)
+{
+	double logx = -lam + k * log(lam);
+	do
+	{
+		logx -= log(k); // This can be tabulated
+	} while(--k > 0);
+	return logx;
+}
+
 std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlock) {
   throwIfNotInitialized();
   uint32_t blockIndex = cachedBlock.getBlockIndex();
@@ -648,7 +667,7 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
       logger(Logging::WARNING) << "Checkpoint block hash mismatch for block " << blockStr;
       return error::BlockValidationError::CHECKPOINT_BLOCK_HASH_MISMATCH;
     }
-  } else if (!currency.checkProofOfWork(cachedBlock, currentDifficulty)) {
+  } else if (!currency.checkProofOfWork(cryptoContext, cachedBlock, currentDifficulty)) {
     logger(Logging::WARNING) << "Proof of work too weak for block " << blockStr;
     return error::BlockValidationError::PROOF_OF_WORK_TOO_WEAK;
   }
@@ -682,24 +701,70 @@ std::error_code Core::addBlock(const CachedBlock& cachedBlock, RawBlock&& rawBlo
 
         auto mainChainCache = chainsLeaves[0];
         if (cache->getCurrentCumulativeDifficulty() > mainChainCache->getCurrentCumulativeDifficulty()) {
-          size_t endpointIndex =
-              std::distance(chainsLeaves.begin(), std::find(chainsLeaves.begin(), chainsLeaves.end(), cache));
-          assert(endpointIndex != chainsStorage.size());
-          assert(endpointIndex != 0);
-          std::swap(chainsLeaves[0], chainsLeaves[endpointIndex]);
-          updateMainChainSet();
+          
+        int64_t reorgSize = cache->getTopBlockIndex() - cache->getStartBlockIndex() + 1;
+		  bool allowReorg = true;
+		  if(reorgSize >= CryptoNote::parameters::POISSON_CHECK_TRIGGER)
+		  {
+			  std::vector<uint64_t> alt_chain = cache->getLastTimestamps(reorgSize);
+			  std::vector<uint64_t> main_chain = mainChainCache->getLastTimestamps(60, cache->getStartBlockIndex() - 1, UseGenesis{false});
 
-          updateBlockMedianSize();
-          actualizePoolTransactions();
-          copyTransactionsToPool(chainsLeaves[endpointIndex]);
+			  uint64_t high_timestamp = alt_chain.back();
+			  std::reverse(main_chain.begin(), main_chain.end());
 
-          switchMainChainStorage(chainsLeaves[0]->getStartBlockIndex(), *chainsLeaves[0]);
+			  uint64_t failed_checks = 0, i = 0;
+			  for(; i < CryptoNote::parameters::POISSON_CHECK_DEPTH; i++)
+			  {
+				  uint64_t low_timestamp = main_chain[i];
 
-          ret = error::AddBlockErrorCode::ADDED_TO_ALTERNATIVE_AND_SWITCHED;
+				  if(low_timestamp >= high_timestamp)
+				  {
+					  logger(Logging::WARNING) << "Skipping check at depth " << i << " due to tampered timestamp on main chain.";
+					  failed_checks++;
+					  continue;
+				  }
 
-          logger(Logging::INFO) << "Resolved: " << blockStr
-                                << ", Previous: " << chainsLeaves[endpointIndex]->getTopBlockIndex() << " ("
-                                << chainsLeaves[endpointIndex]->getTopBlockHash() << ")";
+				  double lam = double(high_timestamp - low_timestamp) / double(CryptoNote::parameters::DIFFICULTY_TARGET);
+				  if(calc_poisson_ln(lam, reorgSize + i + 1) < CryptoNote::parameters::POISSON_CHECK_LOGP)
+				  {
+					  logger(Logging::WARNING) << "Poisson check at depth " << i << " failed! delta_t: " << (high_timestamp - low_timestamp) << " size: " << reorgSize + i + 1;
+					  failed_checks++;
+				  }
+			  }
+
+			  //i is number of checks now
+			  logger(Logging::WARNING) << "Poisson check result " << failed_checks << " fails out of " << i;
+
+			  if(failed_checks > i / 2)
+			  {
+				  logger(Logging::WARNING) << "Attempting to move to an alternate chain, but it failed Poisson check! " << failed_checks << " fails out of " << i << " alt_chain_size: " << reorgSize;
+				  allowReorg = false;
+			  }
+		  }
+		  
+		  if(allowReorg)
+		  {
+				size_t endpointIndex =
+					std::distance(chainsLeaves.begin(), std::find(chainsLeaves.begin(), chainsLeaves.end(), cache));
+				assert(endpointIndex != chainsStorage.size());
+				assert(endpointIndex != 0);
+
+
+
+				std::swap(chainsLeaves[0], chainsLeaves[endpointIndex]);
+				updateMainChainSet();
+
+				updateBlockMedianSize();
+				actualizePoolTransactions();
+				copyTransactionsToPool(chainsLeaves[endpointIndex]);
+
+				switchMainChainStorage(chainsLeaves[0]->getStartBlockIndex(), *chainsLeaves[0]);
+
+				ret = error::AddBlockErrorCode::ADDED_TO_ALTERNATIVE_AND_SWITCHED;
+
+				logger(Logging::WARNING) << "Switching to alternative chain! New top block hash: " << cachedBlock.getBlockHash() << ", index: " << (previousBlockIndex + 1)
+										<< ", previous top block hash: " << chainsLeaves[endpointIndex]->getTopBlockHash() << ", index: " << chainsLeaves[endpointIndex]->getTopBlockIndex();
+		  }
         }
       }
     } else {

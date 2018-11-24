@@ -8,6 +8,7 @@
 
 #include <boost/optional.hpp>
 #include <CryptoNote.h>
+#include "crypto/crypto.h"
 
 namespace CryptoNote {
 
@@ -17,7 +18,7 @@ public:
   const BlockTemplate& getBlock() const;
   const Crypto::Hash& getTransactionTreeHash() const;
   const Crypto::Hash& getBlockHash() const;
-  const Crypto::Hash& getBlockLongHash() const;
+  const Crypto::Hash& getBlockLongHash(Crypto::cn_pow_hash& cryptoContext) const;
   const Crypto::Hash& getAuxiliaryBlockHeaderHash() const;
   const BinaryArray& getBlockHashingBinaryArray() const;
   const BinaryArray& getParentBlockBinaryArray(bool headerOnly) const;

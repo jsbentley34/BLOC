@@ -72,7 +72,7 @@ void PaymentServiceJsonRpcServer::processJsonRpcRequest(const Common::JsonValue&
 
       std::vector<uint8_t> rawData(clientPassword.begin(), clientPassword.end());
       Crypto::Hash hashedPassword = Crypto::Hash();
-      cn_slow_hash_v0(rawData.data(), rawData.size(), hashedPassword);
+      cn_fast_hash(rawData.data(), rawData.size(), hashedPassword);
       if (hashedPassword != config.rpcSecret) {
         makeInvalidPasswordResponse(resp);
         return;
