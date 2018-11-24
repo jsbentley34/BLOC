@@ -3,6 +3,7 @@
 // Copyright (c) 2018, The BBSCoin Developers
 // Copyright (c) 2018, The Karbo Developers
 // Copyright (c) 2018, The TurtleCoin Developers
+// Copyright (c) 2018, The BLOC Developers
 //
 // Please see the included LICENSE file for more information.
 
@@ -3300,7 +3301,7 @@ size_t WalletGreen::createFusionTransaction(uint64_t threshold, uint16_t mixin,
     transactionSize = getTransactionSize(*fusionTransaction);
 
     ++round;
-  } while (transactionSize > m_currency.fusionTxMaxSize() && fusionInputs.size() >= m_currency.fusionTxMinInputCount());
+  } while ((transactionSize > m_currency.fusionTxMaxSize() || transactionSize > getMaxTxSize()) && fusionInputs.size() >= m_currency.fusionTxMinInputCount());
 
   if (fusionInputs.size() < m_currency.fusionTxMinInputCount()) {
     m_logger(ERROR, BRIGHT_RED) << "Unable to create fusion transaction";
