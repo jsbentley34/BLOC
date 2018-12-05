@@ -36,7 +36,7 @@ RUN apt-get update && \
       g++-4.9 \
       git cmake \
       libboost1.58-all-dev && \
-    git clone https://github.com/furiousteam/bloc.git /src/bloc && \
+    git clone https://github.com/furiousteam/BLOC.git /src/bloc && \
     cd /src/bloc && \
     git checkout $BLOC_BRANCH && \
     sed -i '/std::vector<uint64_t> timestamps_o(timestamps);/i \\/*\n   Lower difficulty to static 500 for testnet\n   The rest of this function is ignored\n*\/\nreturn 500;\n\n' src/CryptoNoteCore/Currency.cpp && \

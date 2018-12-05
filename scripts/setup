@@ -26,13 +26,13 @@ ls -al
 # Clone a copy of the BLOC source code
 echo -e "\n\n\n== CLONING BLOC in $sourcefolder"
 
-# By default we always push to the development branch, so if you 
+# By default we always push to the testnet branch, so if you 
 # want a nightly build, this is your best option. However, if you
 # just want to grab the last release build, I think you can clone
 # master branch instead, and it will get the source from the last
-# time that we merged development to master, which normally only
+# time that we merged testnet to master, which normally only
 # happens when we create a version release.
-git clone -b development https://github.com/furiousteam/bloc $sourcefolder
+git clone -b testnet https://github.com/furiousteam/BLOC $sourcefolder
 cd $sourcefolder
 ls -al
 

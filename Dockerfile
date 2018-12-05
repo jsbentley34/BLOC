@@ -25,7 +25,7 @@ RUN apt-get update && \
       g++-4.9 \
       git cmake \
       libboost1.58-all-dev && \
-    git clone https://github.com/furiousteam/bloc.git /src/bloc && \
+    git clone https://github.com/furiousteam/BLOC.git /src/bloc && \
     cd /src/bloc && \
     git checkout $BLOC_BRANCH && \
     mkdir build && \
