@@ -1198,7 +1198,7 @@ wallets.clear();
 wallets.reserve(addresses.size());
 for (const std::string& address: addresses) {
     uint64_t threshold = wallet.getActualBalance(address);
-    uint64_t bestThreshold = wallet.getActualBalance(address);
+  //uint64_t bestThreshold = wallet.getActualBalance(address);
     size_t optimizable = 0;
     while (threshold > CryptoNote::parameters::MINIMUM_FEE)
     {
@@ -1206,7 +1206,7 @@ for (const std::string& address: addresses) {
         if (r.fusionReadyCount > optimizable)
         {
             optimizable = r.fusionReadyCount;
-            bestThreshold = threshold;
+        //  bestThreshold = threshold;
         }
         threshold /= 2;
     }
