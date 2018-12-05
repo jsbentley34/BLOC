@@ -138,7 +138,7 @@ _configure_os() {
             _configure_osx
             ;;
         *)
-            _fail "This installer only runs on OSX 10.10+ and Ubuntu 16.04+. Please consider adding support for your OS to the project ('https://github.com/furiousteam/bloc')"
+            _fail "This installer only runs on OSX 10.10+ and Ubuntu 16.04+. Please consider adding support for your OS to the project ('https://github.com/furiousteam/BLOC')"
             ;;
     esac
     _note "Operating system configuration completed. You're halfway there!"
@@ -153,4 +153,4 @@ _set_wd
 _build_bloc
 
 _note "Installation complete!"
-_note "Look in 'bloc/build/src/' for the executible binaries. See 'https://github.com/furiousteam/bloc' for more project support. Cowabunga!"
+_note "Look in 'bloc/build/src/' for the executible binaries. See 'https://github.com/furiousteam/BLOC' for more project support. Cowabunga!"
