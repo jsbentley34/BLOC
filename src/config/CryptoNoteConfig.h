@@ -156,7 +156,7 @@ const uint32_t UPGRADE_HEIGHT_MAX_BLOCK_SIZE                 = 200;
 const uint32_t UPGRADE_HEIGHT_V2                             = 50;
 const uint32_t UPGRADE_HEIGHT_V3                             = 100;
 const uint32_t UPGRADE_HEIGHT_V4                             = 200; // Upgrade height for CN-Lite Variant 1 switch.
-const uint32_t UPGRADE_HEIGHT_V5                             = 109500;
+const uint32_t UPGRADE_HEIGHT_V5                             = 109600;
 
 const unsigned UPGRADE_VOTING_THRESHOLD                      = 90;               // percent
 const uint32_t UPGRADE_VOTING_WINDOW                         = EXPECTED_NUMBER_OF_BLOCKS_PER_DAY;  // blocks
@@ -171,11 +171,11 @@ const double POISSON_CHECK_LOGP = -75.0; //Reject blocks that are less likely th
 /* Block heights we are going to have hard forks at */
 const uint64_t FORK_HEIGHTS[] =
 {
-    1,
-	50,
-	100,
-	200,
-    109500,
+    1, //0
+	50, //1
+	100, //2
+	200, //3
+    	109600, //4
 };
 
 /* MAKE SURE TO UPDATE THIS VALUE WITH EVERY MAJOR RELEASE BEFORE A FORK */
@@ -185,7 +185,7 @@ const uint64_t FORK_HEIGHTS_SIZE = sizeof(FORK_HEIGHTS) / sizeof(*FORK_HEIGHTS);
 
 /* The index in the FORK_HEIGHTS array that this version of the software will
    support. For example, if CURRENT_FORK_INDEX is 3, this version of the
-   software will support the fork at 600,000 blocks.
+   software will support the fork at 2000 blocks.
 
    This will default to zero if the FORK_HEIGHTS array is empty, so you don't
    need to change it manually. */
