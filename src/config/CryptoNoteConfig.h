@@ -156,7 +156,7 @@ const uint32_t UPGRADE_HEIGHT_MAX_BLOCK_SIZE                 = 200;
 const uint32_t UPGRADE_HEIGHT_V2                             = 50;
 const uint32_t UPGRADE_HEIGHT_V3                             = 100;
 const uint32_t UPGRADE_HEIGHT_V4                             = 200; // Upgrade height for CN-Lite Variant 1 switch.
-const uint32_t UPGRADE_HEIGHT_V5                             = 109450;
+const uint32_t UPGRADE_HEIGHT_V5                             = 109500;
 
 const unsigned UPGRADE_VOTING_THRESHOLD                      = 90;               // percent
 const uint32_t UPGRADE_VOTING_WINDOW                         = EXPECTED_NUMBER_OF_BLOCKS_PER_DAY;  // blocks
@@ -175,10 +175,11 @@ const uint64_t FORK_HEIGHTS[] =
 	50,
 	100,
 	200,
+    109500,
 };
 
 /* MAKE SURE TO UPDATE THIS VALUE WITH EVERY MAJOR RELEASE BEFORE A FORK */
-const uint64_t SOFTWARE_SUPPORTED_FORK_INDEX                 = 3;
+const uint64_t SOFTWARE_SUPPORTED_FORK_INDEX                 = 4;
 
 const uint64_t FORK_HEIGHTS_SIZE = sizeof(FORK_HEIGHTS) / sizeof(*FORK_HEIGHTS);
 
