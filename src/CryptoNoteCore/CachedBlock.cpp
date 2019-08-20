@@ -56,8 +56,13 @@ const Crypto::Hash& CachedBlock::getBlockLongHash(cn_pow_hash& cryptoContext) co
       const auto& rawHashingBlock = getParentBlockHashingBinaryArray(true);
       blockLongHash = Hash();
       cryptoContext.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));
-    } else if (block.majorVersion >= BLOCK_MAJOR_VERSION_4) {
+    } else if (block.majorVersion == BLOCK_MAJOR_VERSION_4) {
       const auto& rawHashingBlock = getParentBlockHashingBinaryArray(true);
+      blockLongHash = Hash();
+      cn_pow_hash_v2 cryptoContextV2 = cn_pow_hash_v2::make_borrowed(cryptoContext);
+      cryptoContextV2.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));
+    } else if (block.majorVersion >= BLOCK_MAJOR_VERSION_5) {
+      const auto& rawHashingBlock = getBlockHashingBinaryArray();
       blockLongHash = Hash();
       cn_pow_hash_v2 cryptoContextV2 = cn_pow_hash_v2::make_borrowed(cryptoContext);
       cryptoContextV2.hash(rawHashingBlock.data(), rawHashingBlock.size(), reinterpret_cast<void*>(&blockLongHash.get()));

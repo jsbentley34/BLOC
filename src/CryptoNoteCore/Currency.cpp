@@ -626,10 +626,6 @@ bool Currency::parseAmount(const std::string& str, uint64_t& amount) const {
     }
     
     bool Currency::checkProofOfWorkV1(Crypto::cn_pow_hash& context, const CachedBlock& block, Difficulty currentDifficulty) const {
-        if (BLOCK_MAJOR_VERSION_1 != block.getBlock().majorVersion) {
-            return false;
-        }
-        
         return check_hash(block.getBlockLongHash(context), currentDifficulty);
     }
     
@@ -679,6 +675,9 @@ bool Currency::parseAmount(const std::string& str, uint64_t& amount) const {
             case BLOCK_MAJOR_VERSION_3:
             case BLOCK_MAJOR_VERSION_4:
                 return checkProofOfWorkV2(context, block, currentDiffic);
+
+            default: // from BLOCK_MAJOR_VERSION_5
+                return checkProofOfWorkV1(context, block, currentDiffic);
         }
         
         logger(ERROR, BRIGHT_RED) << "Unknown block major version: " << block.getBlock().majorVersion << "." << block.getBlock().minorVersion;
