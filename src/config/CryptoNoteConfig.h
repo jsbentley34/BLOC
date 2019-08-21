@@ -22,7 +22,7 @@ const uint64_t DIFFICULTY_TARGET                             = 120; // seconds
 const uint32_t CRYPTONOTE_MAX_BLOCK_NUMBER                   = 500000000;
 const size_t   CRYPTONOTE_MAX_BLOCK_BLOB_SIZE                = 500000000;
 const size_t   CRYPTONOTE_MAX_TX_SIZE                        = 1000000000;
-const uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX       = 249588424;
+const uint64_t CRYPTONOTE_PUBLIC_ADDRESS_BASE58_PREFIX       = 246791582;
 const uint32_t CRYPTONOTE_MINED_MONEY_UNLOCK_WINDOW          = 50;
 const uint64_t CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT            = 60 * 60 * 2;
 const uint64_t CRYPTONOTE_BLOCK_FUTURE_TIME_LIMIT_V3         = 3 * DIFFICULTY_TARGET;
@@ -33,12 +33,12 @@ const size_t   BLOCKCHAIN_TIMESTAMP_CHECK_WINDOW_V3          = 11;
 
 // MONEY_SUPPLY - total number coins to be generated
 const uint64_t MONEY_SUPPLY                                  = UINT64_C(500000000000);
-const uint32_t ZAWY_DIFFICULTY_BLOCK_INDEX                   = 40500;
+const uint32_t ZAWY_DIFFICULTY_BLOCK_INDEX                   = 200;
 const size_t   ZAWY_DIFFICULTY_V2                            = 0;
 const uint8_t  ZAWY_DIFFICULTY_DIFFICULTY_BLOCK_VERSION      = 4;
 
-const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX                 = 40500;
-const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V2              = 40500;
+const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX                 = 200;
+const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V2              = 200;
 //const uint64_t LWMA_2_DIFFICULTY_BLOCK_INDEX_V3              = 40000;
 
 //const uint64_t LWMA_3_DIFFICULTY_BLOCK_INDEX                 = 40000;
@@ -69,13 +69,13 @@ BLOCd --print-genesis-tx --genesis-block-reward-address abLocA4HEsaDXSJHLFMZW4Lj
 * You should see your premine appear in the previously generated wallet.
 
 */
-const char     GENESIS_COINBASE_TX_HEX[]                     = "010a01ff000180e8eda1ba0102d0c75826c2f5c0e2e3eb082c66b0225fbef62f4df14bcf42150e7617b0291749210142a0214c40b4161a575ed4427aa009e29a907647af2699b7505fb3c7986d9d81";
+const char     GENESIS_COINBASE_TX_HEX[]                     = "013201ff000280f4f6905d02fa8ac732a02b2eeb1cb34cc48e4ddb2ab073bf4731bf070c8b569d8430cf1e3180f4f6905d02ede22658d9e9b9f3c1019b4b6a5b2a9797668a99a8ec3355533621b6febeb1a42101097e2d62ad58f6e1463bb3dea7d4cd4221e5fffb2cd3ca69e437c61b9f896d18";
 static_assert(sizeof(GENESIS_COINBASE_TX_HEX)/sizeof(*GENESIS_COINBASE_TX_HEX) != 1, "GENESIS_COINBASE_TX_HEX must not be empty.");
 
 /* This is the unix timestamp of the first "mined" block (technically block 2, not the genesis block)
    You can get this value by doing "print_block 2" in BLOCd. It is used to know what timestamp
    to import from when the block height cannot be found in the node or the node is offline. */
-const uint64_t GENESIS_BLOCK_TIMESTAMP                       = 1525226704;
+const uint64_t GENESIS_BLOCK_TIMESTAMP                       = 1539167654;
 
 const size_t   CRYPTONOTE_REWARD_BLOCKS_WINDOW               = 100;
 const size_t   CRYPTONOTE_BLOCK_GRANTED_FULL_REWARD_ZONE     = 1000000; //size of block (bytes) after which reward for block calculated using block size
@@ -101,7 +101,7 @@ const uint64_t MAXIMUM_MIXIN_V3                              = 10;
 /* The heights to activate the mixin limits at */
 const uint32_t MIXIN_LIMITS_V1_HEIGHT                        = 5;
 const uint32_t MIXIN_LIMITS_V2_HEIGHT                        = 100;
-const uint32_t MIXIN_LIMITS_V3_HEIGHT                        = 40500;
+const uint32_t MIXIN_LIMITS_V3_HEIGHT                        = 200;
 
 /* The mixin to use by default with zedwallet and turtle-service */
 /* DEFAULT_MIXIN_V0 is the mixin used before MIXIN_LIMITS_V1_HEIGHT is started */
@@ -114,7 +114,7 @@ const uint64_t DEFAULT_DUST_THRESHOLD                        = UINT64_C(1);
 const uint64_t DEFAULT_DUST_THRESHOLD_V2                     = UINT64_C(1);
 
 const uint32_t DUST_THRESHOLD_V2_HEIGHT                      = MIXIN_LIMITS_V2_HEIGHT;
-const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2               = 40500;
+const uint32_t FUSION_DUST_THRESHOLD_HEIGHT_V2               = 200;
 const uint64_t EXPECTED_NUMBER_OF_BLOCKS_PER_DAY             = 24 * 60 * 60 / DIFFICULTY_TARGET;
 
 const size_t   DIFFICULTY_WINDOW                             = EXPECTED_NUMBER_OF_BLOCKS_PER_DAY;
@@ -151,11 +151,11 @@ const size_t   FUSION_TX_MIN_INPUT_COUNT                     = 12;
 const size_t   FUSION_TX_MIN_IN_OUT_COUNT_RATIO              = 4;
 
 const uint32_t KEY_IMAGE_CHECKING_BLOCK_INDEX                = 0;
-const uint32_t UPGRADE_HEIGHT_MAX_BLOCK_SIZE                 = 65000;
+const uint32_t UPGRADE_HEIGHT_MAX_BLOCK_SIZE                 = 200;
 
 const uint32_t UPGRADE_HEIGHT_V2                             = 50;
 const uint32_t UPGRADE_HEIGHT_V3                             = 100;
-const uint32_t UPGRADE_HEIGHT_V4                             = 40500; // Upgrade height for CN-Heavy Variant Haven (xhv).
+const uint32_t UPGRADE_HEIGHT_V4                             = 200; // Upgrade height for CN-Heavy Variant Haven (xhv).
 const uint32_t UPGRADE_HEIGHT_CURRENT                        = UPGRADE_HEIGHT_V4;
 
 const unsigned UPGRADE_VOTING_THRESHOLD                      = 90;               // percent
@@ -171,10 +171,10 @@ const double POISSON_CHECK_LOGP = -75.0; //Reject blocks that are less likely th
 /* Block heights we are going to have hard forks at */
 const uint64_t FORK_HEIGHTS[] =
 {
-    1,
-	50,
-	100,
-	40500,
+    1, //0
+	50, //1
+	100, //2
+	200, //3
 };
 
 /* MAKE SURE TO UPDATE THIS VALUE WITH EVERY MAJOR RELEASE BEFORE A FORK */
@@ -255,14 +255,11 @@ const char     LATEST_VERSION_URL[]                          = "https://bloc.mon
 const std::string LICENSE_URL                                = "https://github.com/furiousteam/BLOC/blob/master/LICENSE";
 const static   boost::uuids::uuid CRYPTONOTE_NETWORK         =
 {
-    {  0x21, 0x21, 0x32, 0xf2, 0x2f, 0x29, 0x2c, 0x23, 0x22, 0x8f, 0x8c, 0x12, 0x37, 0x27, 0x9d, 0x98  }
+    {  0x11, 0x21, 0x32, 0xf2, 0x2f, 0x92, 0xc2, 0x23, 0x22, 0x8f, 0x8c, 0x12, 0x37, 0x27, 0x9d, 0x98  }
 };
 
 const char* const SEED_NODES[] = {
-    "174.138.59.135:2082",//atlantic
-    "138.197.208.94:2082",//pacific
- 	"95.216.3.162:2082",//baltic
- 	"88.198.57.162:2082",//europe
- 	"206.189.42.115:2082"//asia
+    "testnet1.bloc.money:2082",//atlantic
+    "testnet2.bloc.money:2082"//pacific
 };
 } // CryptoNote
