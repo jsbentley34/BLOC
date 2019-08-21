@@ -35,7 +35,7 @@ const Crypto::Hash& CachedBlock::getTransactionTreeHash() const {
 const Crypto::Hash& CachedBlock::getBlockHash() const {
   if (!blockHash.is_initialized()) {
     BinaryArray blockBinaryArray = getBlockHashingBinaryArray();
-    if (block.majorVersion > BLOCK_MAJOR_VERSION_2 && block.majorVersion <= BLOCK_MAJOR_VERSION_4) {
+    if (block.majorVersion >= BLOCK_MAJOR_VERSION_2 && block.majorVersion <= BLOCK_MAJOR_VERSION_4) {
       const auto& parentBlock = getParentBlockHashingBinaryArray(false);
       blockBinaryArray.insert(blockBinaryArray.end(), parentBlock.begin(), parentBlock.end());
     }
