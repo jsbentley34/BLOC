@@ -230,8 +230,8 @@ const size_t   P2P_LOCAL_GRAY_PEERLIST_LIMIT                 =  5000;
 
 // P2P Network Configuration Section - This defines our current P2P network version
 // and the minimum version for communication between nodes
-const uint8_t  P2P_CURRENT_VERSION                           = 5;
-const uint8_t  P2P_MINIMUM_VERSION                           = 3;
+const uint8_t  P2P_CURRENT_VERSION                           = 6;
+const uint8_t  P2P_MINIMUM_VERSION                           = 4;
 // This defines the number of versions ahead we must see peers before we start displaying
 // warning messages that we need to upgrade our software.
 const uint8_t  P2P_UPGRADE_WINDOW                            = 2;
@@ -261,10 +261,9 @@ const static   boost::uuids::uuid CRYPTONOTE_NETWORK         =
 };
 
 const char* const SEED_NODES[] = {
-    "174.138.59.135:2082",//atlantic
-    "138.197.208.94:2082",//pacific
- 	"95.216.3.162:2082",//baltic
- 	"88.198.57.162:2082",//europe
- 	"206.189.42.115:2082"//asia
+    "atlantic.bloc.money:2082",//atlantic
+    "pacific.bloc.money:2082",//pacific
+ 	"baltic.bloc.money:2082",//baltic
+ 	"europe.bloc.money:2082"//europe
 };
 } // CryptoNote
